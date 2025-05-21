@@ -1,0 +1,123 @@
+{% extends 'layout.html' %}
+
+{% block title %}AI-Powered Phishing Email Detection{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card border-0 bg-dark text-light">
+            <div class="card-body">
+                <h2 class="card-title"><i class="fas fa-shield-alt me-2"></i>Phishing Email Detection</h2>
+                <p class="card-text">
+                    Upload an email or paste its content to analyze it for phishing attempts. 
+                    Our AI-powered system will examine the email and provide a detailed risk assessment.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="paste-mode-btn" type="button">
+                            <i class="fas fa-paste me-1"></i> Paste Email
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="upload-mode-btn" type="button">
+                            <i class="fas fa-file-upload me-1"></i> Upload Email
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form id="email-analysis-form" action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data">
+                    <!-- Paste Email Section -->
+                    <div id="paste-section">
+                        <div class="mb-3">
+                            <label for="email-content" class="form-label">Email Content</label>
+                            <textarea class="form-control" id="email-content" name="email_content" rows="12" placeholder="Paste the complete email content here, including headers if available..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Email Section -->
+                    <div id="upload-section" class="d-none">
+                        <div class="mb-3">
+                            <label for="email-file" class="form-label">Email File</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="email-file" name="email_file" accept=".eml,.txt,.html">
+                                <label class="input-group-text" for="email-file">Browse</label>
+                            </div>
+                            <div class="form-text">Supported formats: .eml, .txt, .html</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <div>
+                            <button type="button" id="load-sample-btn" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-lightbulb me-1"></i> Load Sample
+                            </button>
+                            <button type="button" id="clear-form-btn" class="btn btn-outline-danger">
+                                <i class="fas fa-trash-alt me-1"></i> Clear
+                            </button>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i> Analyze Email
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-info-circle me-1"></i> How It Works
+            </div>
+            <div class="card-body">
+                <ol class="mb-0">
+                    <li class="mb-2">Upload or paste the email content you want to analyze</li>
+                    <li class="mb-2">Our AI model examines multiple features of the email</li>
+                    <li class="mb-2">Get an instant assessment of whether it's a phishing attempt</li>
+                    <li>View detailed explanations highlighting suspicious elements</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-shield-alt me-1"></i> Key Features
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-brain text-primary me-2"></i>
+                        Machine Learning Analysis
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-chart-line text-primary me-2"></i>
+                        Confidence Scoring
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-search text-primary me-2"></i>
+                        Suspicious Content Highlighting
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-link text-primary me-2"></i>
+                        URL Analysis
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-file-alt text-primary me-2"></i>
+                        Detailed Reports
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

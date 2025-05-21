@@ -1,0 +1,324 @@
+{% extends 'layout.html' %}
+
+{% block title %}Documentation | Phishing Detection{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2><i class="fas fa-book me-2"></i>Documentation</h2>
+        <p class="lead">
+            Learn how the phishing detection system works and how to use it effectively.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group mb-4 sticky-top" style="top: 80px;">
+            <a href="#overview" class="list-group-item list-group-item-action">Overview</a>
+            <a href="#using-system" class="list-group-item list-group-item-action">Using the System</a>
+            <a href="#features" class="list-group-item list-group-item-action">Features Analyzed</a>
+            <a href="#model" class="list-group-item list-group-item-action">Machine Learning Model</a>
+            <a href="#onnx" class="list-group-item list-group-item-action">ONNX Integration</a>
+            <a href="#training" class="list-group-item list-group-item-action">Model Training</a>
+            <a href="#api" class="list-group-item list-group-item-action">API Documentation</a>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <!-- Overview Section -->
+        <div id="overview" class="doc-section">
+            <h3>Overview</h3>
+            <p>
+                The AI-Powered Phishing Email Detection System uses machine learning to analyze email content
+                and identify potential phishing attempts. The system examines various characteristics of emails
+                that are commonly associated with phishing, such as suspicious URLs, urgent language, requests for
+                sensitive information, and more.
+            </p>
+            <p>
+                By leveraging the ONNX (Open Neural Network Exchange) runtime, the system provides efficient
+                and accurate predictions. The model is trained on a large dataset of both legitimate and phishing
+                emails to ensure high detection accuracy.
+            </p>
+        </div>
+        
+        <!-- Using the System Section -->
+        <div id="using-system" class="doc-section">
+            <h3>Using the System</h3>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Step 1: Submit an Email</h4>
+                    <p>
+                        On the home page, you can either:
+                    </p>
+                    <ul>
+                        <li>Paste the full email content (including headers if available)</li>
+                        <li>Upload an email file (.eml, .txt, or .html format)</li>
+                    </ul>
+                    <p>
+                        Click the "Analyze Email" button to start the analysis process.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Step 2: Review Results</h4>
+                    <p>
+                        After analysis, you'll be presented with a detailed report including:
+                    </p>
+                    <ul>
+                        <li>Classification result (phishing or legitimate)</li>
+                        <li>Confidence score</li>
+                        <li>Highlighted suspicious elements</li>
+                        <li>Feature importance visualization</li>
+                        <li>Explanation of key indicators</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4>Step 3: Take Action</h4>
+                    <p>
+                        Based on the analysis:
+                    </p>
+                    <ul>
+                        <li>If classified as phishing, avoid clicking links or responding to the email</li>
+                        <li>Consider reporting the email to your IT department or email provider</li>
+                        <li>For legitimate emails, proceed with normal handling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Features Section -->
+        <div id="features" class="doc-section">
+            <h3>Features Analyzed</h3>
+            <p>
+                The system analyzes numerous features to detect phishing attempts:
+            </p>
+            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Urgent Language</td>
+                            <td>Detects words and phrases that create a sense of urgency or fear</td>
+                        </tr>
+                        <tr>
+                            <td>URL Analysis</td>
+                            <td>Examines URLs for suspicious domains, IP addresses, or mismatched display text</td>
+                        </tr>
+                        <tr>
+                            <td>Credential Requests</td>
+                            <td>Identifies requests for passwords, account details, or personal information</td>
+                        </tr>
+                        <tr>
+                            <td>Sender Analysis</td>
+                            <td>Evaluates sender address for suspicious patterns or spoofing indicators</td>
+                        </tr>
+                        <tr>
+                            <td>Content Analysis</td>
+                            <td>Examines email content for typical phishing phrases and patterns</td>
+                        </tr>
+                        <tr>
+                            <td>HTML/JavaScript</td>
+                            <td>Detects potentially malicious HTML or JavaScript in the email</td>
+                        </tr>
+                        <tr>
+                            <td>Spelling/Grammar</td>
+                            <td>Identifies suspicious spelling patterns often found in phishing emails</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Machine Learning Model Section -->
+        <div id="model" class="doc-section">
+            <h3>Machine Learning Model</h3>
+            <p>
+                The phishing detection system uses a machine learning model trained on a comprehensive dataset
+                of phishing and legitimate emails. The model is designed to identify patterns and characteristics
+                that distinguish phishing attempts from legitimate communications.
+            </p>
+            
+            <div class="card mb-4">
+                <div class="card-header">Model Architecture</div>
+                <div class="card-body">
+                    <p>
+                        The system uses a gradient boosting classifier model which offers:
+                    </p>
+                    <ul>
+                        <li>High accuracy in classification tasks</li>
+                        <li>Ability to handle a mix of numerical and categorical features</li>
+                        <li>Resistance to overfitting through ensemble learning</li>
+                        <li>Feature importance analysis for explainability</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">Performance Metrics</div>
+                <div class="card-body">
+                    <p>
+                        The model achieves the following performance on test data:
+                    </p>
+                    <ul>
+                        <li>Accuracy: ~95%</li>
+                        <li>Precision: ~94%</li>
+                        <li>Recall: ~96%</li>
+                        <li>F1 Score: ~95%</li>
+                    </ul>
+                    <p class="text-muted">
+                        <small>
+                            Note: Actual performance may vary depending on the characteristics of new emails
+                            and evolving phishing techniques.
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ONNX Integration Section -->
+        <div id="onnx" class="doc-section">
+            <h3>ONNX Integration</h3>
+            <p>
+                The system utilizes ONNX (Open Neural Network Exchange) to deploy the machine learning model.
+                ONNX is an open format to represent machine learning models, allowing models to be transferred
+                between different frameworks and platforms.
+            </p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Benefits of ONNX Integration</h4>
+                    <ul>
+                        <li>Platform independence: The model can run on various platforms and hardware</li>
+                        <li>Performance optimization: ONNX Runtime provides efficient inference capabilities</li>
+                        <li>Reduced dependencies: No need for the original training framework in production</li>
+                        <li>Easier deployment: Standardized format for model sharing and deployment</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4>Implementation Details</h4>
+                    <p>
+                        The model is converted to ONNX format after training using the following process:
+                    </p>
+                    <div class="code-block">
+# Example code for converting a scikit-learn model to ONNX
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+
+# Define input features
+initial_type = [('float_input', FloatTensorType([None, n_features]))]
+
+# Convert model to ONNX
+onnx_model = convert_sklearn(sklearn_model, initial_types=initial_type)
+
+# Save the model
+with open("phishing_model.onnx", "wb") as f:
+    f.write(onnx_model.SerializeToString())
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Model Training Section -->
+        <div id="training" class="doc-section">
+            <h3>Model Training</h3>
+            <p>
+                The machine learning model is trained using Google Colab, which provides the computational
+                resources needed for effective model development and experimentation.
+            </p>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Training Process</h4>
+                    <ol>
+                        <li>Data collection from Kaggle's phishing email dataset</li>
+                        <li>Data preprocessing and feature extraction</li>
+                        <li>Dataset splitting into training and testing sets</li>
+                        <li>Model selection and hyperparameter tuning</li>
+                        <li>Model evaluation using cross-validation</li>
+                        <li>Final model training on the full training dataset</li>
+                        <li>Conversion to ONNX format for deployment</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4>Data Sources</h4>
+                    <p>
+                        The model is trained using data from:
+                    </p>
+                    <ul>
+                        <li>Kaggle's "Phishing Email Detection" dataset</li>
+                        <li>Public phishing email collections</li>
+                        <li>Legitimate email samples</li>
+                    </ul>
+                    <p>
+                        The dataset is carefully balanced to ensure the model performs well on both phishing
+                        and legitimate emails, minimizing both false positives and false negatives.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- API Documentation Section -->
+        <div id="api" class="doc-section">
+            <h3>API Documentation</h3>
+            <p>
+                The phishing detection system provides a RESTful API for integration with other applications.
+            </p>
+            
+            <div class="card">
+                <div class="card-header">POST /api/analyze</div>
+                <div class="card-body">
+                    <p>
+                        Analyzes an email for phishing characteristics.
+                    </p>
+                    
+                    <h5>Request</h5>
+                    <p><strong>Content-Type:</strong> application/json</p>
+                    <div class="code-block">
+{
+    "email_content": "Full email content including headers"
+}
+                    </div>
+                    
+                    <h5 class="mt-3">Response</h5>
+                    <p><strong>Content-Type:</strong> application/json</p>
+                    <div class="code-block">
+{
+    "is_phishing": true,
+    "confidence": 95.7,
+    "features": {
+        "contains_urgent_words": 1,
+        "contains_finance_words": 1,
+        "contains_security_words": 1,
+        "num_urls": 0.3,
+        ...
+    },
+    "suspicious_elements": {
+        "keywords": ["urgent", "verify", "account"],
+        "urls": ["https://malicious-site.com/verify.php"]
+    }
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

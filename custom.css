@@ -1,0 +1,173 @@
+/* Custom styles for phishing detection system */
+
+/* Main content styles */
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    min-height: 100vh;
+}
+
+.main-container {
+    max-width: 1200px;
+}
+
+/* Card customization */
+.card-header {
+    font-weight: 600;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Form elements */
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.custom-file-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Loading overlay */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: white;
+    flex-direction: column;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Results page styling */
+.result-card {
+    transition: transform 0.3s;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+}
+
+.confidence-container {
+    position: relative;
+    width: 200px;
+    margin: 0 auto;
+}
+
+.confidence-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Feature badges */
+.feature-badge {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* Email content display */
+#email-content-display {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: monospace;
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    padding: 15px;
+    border-radius: 5px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Highlighted elements (initially hidden) */
+#email-content-display .suspicious-keyword,
+#email-content-display .suspicious-url {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+    border-radius: 0;
+}
+
+#email-content-display.highlights-enabled .suspicious-keyword {
+    background-color: rgba(255, 193, 7, 0.3);
+    padding: 2px 0;
+    border-radius: 3px;
+}
+
+#email-content-display.highlights-enabled .suspicious-url {
+    background-color: rgba(220, 53, 69, 0.3);
+    padding: 2px 0;
+    border-radius: 3px;
+}
+
+/* Feature explanation */
+.feature-explanation {
+    font-size: 0.9rem;
+}
+
+/* Documentation page */
+.doc-section {
+    margin-bottom: 30px;
+}
+
+.doc-section h3 {
+    border-bottom: 1px solid var(--bs-gray-300);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.code-block {
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    padding: 15px;
+    border-radius: 5px;
+    font-family: monospace;
+    overflow-x: auto;
+}
+
+/* Alert customization */
+.alert-phishing {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-legitimate {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+/* Tabs customization */
+.nav-tabs .nav-link.active {
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .confidence-container {
+        width: 150px;
+    }
+    
+    .confidence-text {
+        font-size: 1.2rem;
+    }
+}

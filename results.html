@@ -1,0 +1,194 @@
+{% extends 'layout.html' %}
+
+{% block title %}Analysis Results | Phishing Detection{% endblock %}
+
+{% block additional_head %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Analysis Results</li>
+            </ol>
+        </nav>
+        
+        <h2 class="mb-4">
+            <i class="fas fa-search me-2"></i>Email Analysis Results
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Main Result Card -->
+        <div class="card mb-4">
+            <div class="card-header {% if result.is_phishing %}bg-danger{% else %}bg-success{% endif %} text-white">
+                <h3 class="mb-0">
+                    {% if result.is_phishing %}
+                        <i class="fas fa-exclamation-triangle me-2"></i>Phishing Email Detected
+                    {% else %}
+                        <i class="fas fa-check-circle me-2"></i>Legitimate Email
+                    {% endif %}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="confidence-gauge" data-confidence="{{ result.confidence }}" data-is-phishing="{{ result.is_phishing }}">
+                            <div class="confidence-container">
+                                <canvas id="confidence-chart"></canvas>
+                                <div id="confidence-text" class="confidence-text"></div>
+                            </div>
+                            <p class="text-center mt-2">
+                                Confidence: <strong>{{ result.confidence|round }}%</strong>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-7">
+                        <h4 class="mb-3">Analysis Summary</h4>
+                        
+                        <div class="alert {% if result.is_phishing %}alert-danger{% else %}alert-success{% endif %}">
+                            {% if result.is_phishing %}
+                                <p class="mb-0"><strong>This email shows characteristics commonly found in phishing attempts.</strong></p>
+                                <p class="mb-0">It's recommended that you do NOT respond or click any links in this email.</p>
+                            {% else %}
+                                <p class="mb-0"><strong>This email appears to be legitimate.</strong></p>
+                                <p class="mb-0">No significant phishing indicators were detected.</p>
+                            {% endif %}
+                        </div>
+                        
+                        <p class="mt-3">
+                            <strong>Analysis completed:</strong> {{ result.timestamp }}
+                        </p>
+                        
+                        <div class="mt-3">
+                            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                                <i class="fas fa-arrow-left me-1"></i> Analyze Another Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Email Content Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Email Content</h4>
+                <button id="toggle-highlights" class="btn btn-sm btn-outline-info">Show Highlights</button>
+            </div>
+            <div class="card-body">
+                <div id="email-content-display" class="pre">{{ result.important_features.email_content|default('Email content not available', true)|safe }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Suspicious Elements Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0 text-dark">Suspicious Elements</h4>
+            </div>
+            <div class="card-body">
+                <!-- Suspicious Keywords -->
+                <div class="mb-3">
+                    <h5>Suspicious Keywords</h5>
+                    <div id="suspicious-keywords" data-keywords="{{ result.important_features.suspicious_keywords|tojson }}">
+                        {% if result.important_features.suspicious_keywords %}
+                            {% for keyword in result.important_features.suspicious_keywords %}
+                                <span class="badge bg-warning text-dark me-1 mb-1">{{ keyword }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">No suspicious keywords detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- URLs Found -->
+                <div class="mb-3">
+                    <h5>URLs Found</h5>
+                    {% if result.important_features.urls_found %}
+                        <ul class="list-group">
+                            {% for url in result.important_features.urls_found %}
+                                <li class="list-group-item bg-transparent">
+                                    <code class="text-danger">{{ url }}</code>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No URLs detected</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feature Importance Card -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Feature Importance</h4>
+            </div>
+            <div class="card-body">
+                <div id="features-importance" data-features="{{ result.important_features|tojson }}">
+                    <canvas id="features-chart" height="300"></canvas>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Key Indicators</h5>
+                    <ul class="list-group list-group-flush feature-explanation">
+                        {% if result.important_features.contains_urgent_words %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-exclamation-circle text-warning me-2"></i>
+                                Contains urgent/threatening language
+                            </li>
+                        {% endif %}
+                        
+                        {% if result.important_features.num_urls_mismatched_text > 0 %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-link text-danger me-2"></i>
+                                Links with mismatched display text
+                            </li>
+                        {% endif %}
+                        
+                        {% if result.important_features.contains_ip_urls %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-globe text-danger me-2"></i>
+                                Contains links with IP addresses instead of domains
+                            </li>
+                        {% endif %}
+                        
+                        {% if result.important_features.request_for_credentials %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-key text-danger me-2"></i>
+                                Requests login credentials or personal information
+                            </li>
+                        {% endif %}
+                        
+                        {% if result.important_features.email_contains_javascript %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-code text-danger me-2"></i>
+                                Contains potentially malicious scripts
+                            </li>
+                        {% endif %}
+                        
+                        {% if result.important_features.has_suspicious_sender %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-user-secret text-danger me-2"></i>
+                                Sender address appears suspicious
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/visualization.js') }}"></script>
+{% endblock %}

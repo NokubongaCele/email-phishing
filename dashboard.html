@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+
+{% block title %}Dashboard | Phishing Detection{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4">
+            <i class="fas fa-chart-line me-2"></i>Your Dashboard
+        </h2>
+        
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Welcome, {{ current_user.username }}</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    Here you can view your recent email analysis history and manage your account.
+                </p>
+                
+                <div class="mt-4">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        <i class="fas fa-search me-1"></i> Analyze New Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Your Analysis History</h4>
+            </div>
+            <div class="card-body">
+                {% if analyses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Result</th>
+                                    <th>Confidence</th>
+                                    <th>Preview</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for analysis in analyses %}
+                                <tr>
+                                    <td>{{ analysis.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>
+                                        {% if analysis.prediction == 1 %}
+                                            <span class="badge bg-danger">Phishing</span>
+                                        {% else %}
+                                            <span class="badge bg-success">Legitimate</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ (analysis.confidence * 100)|round }}%</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#previewModal{{ analysis.id }}">
+                                            <i class="fas fa-eye me-1"></i> Preview
+                                        </button>
+                                        
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="previewModal{{ analysis.id }}" tabindex="-1" aria-labelledby="previewModalLabel{{ analysis.id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="previewModalLabel{{ analysis.id }}">Email Preview</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <pre class="bg-dark text-light p-3">{{ analysis.email_content }}</pre>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info">
+                                            <i class="fas fa-file-alt me-1"></i> Details
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <p class="mb-0">You haven't analyzed any emails yet. Go to the <a href="{{ url_for('index') }}">home page</a> to analyze an email.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
